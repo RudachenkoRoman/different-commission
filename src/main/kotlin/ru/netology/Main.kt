@@ -15,26 +15,21 @@ fun main() {
     val maxAmountAtOneTimeVKPay = 15_000
     val maxAmountPerMonthVKPay = 40_000
 
-
-
     print("Введите сумму для перевода: ")
     val amount = readLine()?.toInt() ?: return
 
-    vkPay(amount, maxAmountAtOneTimeVKPay, maxAmountPerMonthVKPay)
-    if (amount > maxAmountPerDayCard) {
-        println("Превышена сумма перевода за одини сутки по картам")
-        println("Mastercard, Maestro,Visa, Mir")
-    } else {
-        println("Перевод с карты Mastercard или Maestro")
-        mastercardAndMaestro(
-            amount, commissionMastercardAndMaestroPercent,
-            commissionMastercardAndMaestro,
-            maxMastercardAndMaestroInMonth
-        )
-        println("Перевод с карты Visa или Mir")
-        visaAndMir(amount, commissionVisaAndMir, minCommissionVisaAndMir)
-        limits(amount, maxAmountPerDayCard, maxAmountPerMonthCard)
-    }
+    printSum(
+        amount,
+        maxAmountPerDayCard,
+        maxAmountPerMonthCard,
+        commissionVisaAndMir,
+        minCommissionVisaAndMir,
+        commissionMastercardAndMaestroPercent,
+        commissionMastercardAndMaestro,
+        maxMastercardAndMaestroInMonth,
+        maxAmountAtOneTimeVKPay,
+        maxAmountPerMonthVKPay
+    )
 }
 
 private fun mastercardAndMaestro(
@@ -51,6 +46,7 @@ private fun mastercardAndMaestro(
         amount.toDouble()
     }
     val pennies = (sum - sum.toInt()) * 100
+    println("Mastercard и Maestro")
     println("Комиссия сотавила ${ceil(commission * 100).toInt()} копеек")
     println("Сумма перевода с учетом комиссии сотавит ${ceil(sum).toInt()} рублей ${ceil(pennies).toInt()} копеек\n")
 }
@@ -64,12 +60,13 @@ private fun visaAndMir(amount: Int, commissionVisaAndMir: Double, minCommissionV
         (amount + minCommissionVisaAndMir)
     }
     val pennies = (sum - sum.toInt()) * 100
+    println("Visa и Mir")
     println("Комиссия сотавила ${ceil(commission * 100).toInt()} копеек")
     println("Сумма перевода с учетом комиссии сотавит ${ceil(sum).toInt()} рублей ${ceil(pennies).toInt()} копеек\n")
 }
 
 private fun vkPay(amount: Int, maxAmountAtOneTimeVKPay: Int, maxAmountPerMonthVKPay: Int) {
-    println("Перевод с VKPay")
+    println("VKPay")
     if (amount > maxAmountAtOneTimeVKPay) {
         println("Превышена сумма перевода за один раз.\n")
     } else {
@@ -81,11 +78,34 @@ private fun vkPay(amount: Int, maxAmountAtOneTimeVKPay: Int, maxAmountPerMonthVK
     }
 }
 
-private fun limits(amount: Int, maxAmountPerDayCard: Int, maxAmountPerMonthCard: Int) {
-    val remainderDay = maxAmountPerDayCard - amount
-    val remainderMonth = maxAmountPerMonthCard - amount
-    println("Остаток на текущий день $remainderDay рубль")
-    println("Остаток на текущий месяц $remainderMonth рубль")
+private fun printSum(
+    amount: Int, maxAmountPerDayCard: Int, maxAmountPerMonthCard: Int,
+    commissionVisaAndMir: Double, minCommissionVisaAndMir: Double, commissionMastercardAndMaestroPercent: Double,
+    commissionMastercardAndMaestro: Int, maxMastercardAndMaestroInMonth: Int,
+    maxAmountAtOneTimeVKPay: Int, maxAmountPerMonthVKPay: Int
+) {
+    if (amount <= 0) {
+        println("Введена неверная сумма перевода")
+    } else {
+        if (amount > maxAmountPerDayCard) {
+            println("Превышена сумма перевода за один раз :\nVkPay")
+            println("Превышена сумма перевода в сутки по картам :")
+            println("Mastercard,Maestro,Visa,Mir")
+        } else {
+            vkPay(amount, maxAmountAtOneTimeVKPay, maxAmountPerMonthVKPay)
+            mastercardAndMaestro(
+                amount, commissionMastercardAndMaestroPercent,
+                commissionMastercardAndMaestro,
+                maxMastercardAndMaestroInMonth
+            )
+            visaAndMir(amount, commissionVisaAndMir, minCommissionVisaAndMir)
+            val remainderDay = maxAmountPerDayCard - amount
+            val remainderMonth = maxAmountPerMonthCard - amount
+            println("По картам: ")
+            println("Остаток на текущий день $remainderDay рубль")
+            println("Остаток на текущий месяц $remainderMonth рубль")
+        }
+    }
 }
 
 
