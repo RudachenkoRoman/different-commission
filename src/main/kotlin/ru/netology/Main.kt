@@ -18,7 +18,7 @@ fun main() {
     print("Введите сумму для перевода: ")
     val amount = readLine()?.toInt() ?: return
 
-    printSum(
+    printFinal(
         amount,
         maxAmountPerDayCard,
         maxAmountPerMonthCard,
@@ -32,12 +32,12 @@ fun main() {
     )
 }
 
-private fun mastercardAndMaestro(
+fun mastercardAndMaestro(
     amount: Int, commissionMastercardAndMaestroPercent: Double,
     commissionMastercardAndMaestro: Int,
     maxMastercardAndMaestroInMonth: Int
-) {
-    var commission: Double
+): Pair<Double, Double> {
+    val commission: Double
     val sum: Double = if (amount > maxMastercardAndMaestroInMonth) {
         commission = amount / 100 * commissionMastercardAndMaestroPercent + commissionMastercardAndMaestro
         amount + commission
@@ -45,27 +45,21 @@ private fun mastercardAndMaestro(
         commission = 0.0
         amount.toDouble()
     }
-    val pennies = (sum - sum.toInt()) * 100
-    println("Mastercard и Maestro")
-    println("Комиссия сотавила ${ceil(commission * 100).toInt()} копеек")
-    println("Сумма перевода с учетом комиссии сотавит ${ceil(sum).toInt()} рублей ${ceil(pennies).toInt()} копеек\n")
+    return Pair(sum, commission)
 }
 
-private fun visaAndMir(amount: Int, commissionVisaAndMir: Double, minCommissionVisaAndMir: Double) {
+fun visaAndMir(amount: Int, commissionVisaAndMir: Double, minCommissionVisaAndMir: Double): Pair<Double, Double> {
     var commission: Double = amount / 100 * commissionVisaAndMir
     val sum = if (commission > minCommissionVisaAndMir) {
         amount + commission
     } else {
         commission = minCommissionVisaAndMir
-        (amount + minCommissionVisaAndMir)
+        amount + minCommissionVisaAndMir
     }
-    val pennies = (sum - sum.toInt()) * 100
-    println("Visa и Mir")
-    println("Комиссия сотавила ${ceil(commission * 100).toInt()} копеек")
-    println("Сумма перевода с учетом комиссии сотавит ${ceil(sum).toInt()} рублей ${ceil(pennies).toInt()} копеек\n")
+    return Pair(sum, commission)
 }
 
-private fun vkPay(amount: Int, maxAmountAtOneTimeVKPay: Int, maxAmountPerMonthVKPay: Int) {
+fun vkPay(amount: Int, maxAmountAtOneTimeVKPay: Int, maxAmountPerMonthVKPay: Int) {
     println("VKPay")
     if (amount > maxAmountAtOneTimeVKPay) {
         println("Превышена сумма перевода за один раз.\n")
@@ -78,7 +72,13 @@ private fun vkPay(amount: Int, maxAmountAtOneTimeVKPay: Int, maxAmountPerMonthVK
     }
 }
 
-private fun printSum(
+fun printDelim(sum: Double, commission: Double) {
+    val pennies = (sum - sum.toInt()) * 100
+    println("Комиссия сотавила ${ceil(commission * 100).toInt()} копеек")
+    println("Сумма перевода с учетом комиссии сотавит ${ceil(sum).toInt()} рублей ${ceil(pennies).toInt()} копеек\n")
+}
+
+fun printFinal(
     amount: Int, maxAmountPerDayCard: Int, maxAmountPerMonthCard: Int,
     commissionVisaAndMir: Double, minCommissionVisaAndMir: Double, commissionMastercardAndMaestroPercent: Double,
     commissionMastercardAndMaestro: Int, maxMastercardAndMaestroInMonth: Int,
@@ -88,17 +88,21 @@ private fun printSum(
         println("Введена неверная сумма перевода")
     } else {
         if (amount > maxAmountPerDayCard) {
-            println("Превышена сумма перевода за один раз :\nVkPay")
+            println("Превышена сумма перевода за один раз :\nVkPay\n")
             println("Превышена сумма перевода в сутки по картам :")
             println("Mastercard,Maestro,Visa,Mir")
         } else {
             vkPay(amount, maxAmountAtOneTimeVKPay, maxAmountPerMonthVKPay)
-            mastercardAndMaestro(
+            println("Mastercard и Maestro")
+            val (sumMAM, commissionMAM) = mastercardAndMaestro(
                 amount, commissionMastercardAndMaestroPercent,
                 commissionMastercardAndMaestro,
                 maxMastercardAndMaestroInMonth
             )
-            visaAndMir(amount, commissionVisaAndMir, minCommissionVisaAndMir)
+            printDelim(sumMAM, commissionMAM)
+            println("Visa и Mir")
+            val (sumVAM, commissionVAM) = visaAndMir(amount, commissionVisaAndMir, minCommissionVisaAndMir)
+            printDelim(sumVAM, commissionVAM)
             val remainderDay = maxAmountPerDayCard - amount
             val remainderMonth = maxAmountPerMonthCard - amount
             println("По картам: ")
