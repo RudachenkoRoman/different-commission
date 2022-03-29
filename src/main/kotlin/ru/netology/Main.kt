@@ -63,13 +63,14 @@ fun vkPay(amount: Int, maxAmountAtOneTimeVKPay: Int, maxAmountPerMonthVKPay: Int
     println("VKPay")
     if (amount > maxAmountAtOneTimeVKPay) {
         println("Превышена сумма перевода за один раз.\n")
-    } else {
-        println("Сумма перевода $amount рублей ,комиссия не взимается")
-        val remainderOnTime = maxAmountAtOneTimeVKPay - amount
-        val remainderMonth = maxAmountPerMonthVKPay - amount
-        println("Остаток на текущий день $remainderOnTime рубль")
-        println("Остаток на текущий месяц $remainderMonth рубль\n")
+        return
     }
+    println("Сумма перевода $amount рублей ,комиссия не взимается\n")
+    val remainderOnTime = maxAmountAtOneTimeVKPay - amount
+    val remainderMonth = maxAmountPerMonthVKPay - amount
+    println("Остаток на текущий день $remainderOnTime рубль")
+    println("Остаток на текущий месяц $remainderMonth рубль\n")
+
 }
 
 fun printDelim(sum: Double, commission: Double) {
@@ -86,30 +87,32 @@ fun printFinal(
 ) {
     if (amount <= 0) {
         println("Введена неверная сумма перевода")
-    } else {
-        if (amount > maxAmountPerDayCard) {
-            println("Превышена сумма перевода за один раз :\nVkPay\n")
-            println("Превышена сумма перевода в сутки по картам :")
-            println("Mastercard,Maestro,Visa,Mir")
-        } else {
-            vkPay(amount, maxAmountAtOneTimeVKPay, maxAmountPerMonthVKPay)
-            println("Mastercard и Maestro")
-            val (sumMAM, commissionMAM) = mastercardAndMaestro(
-                amount, commissionMastercardAndMaestroPercent,
-                commissionMastercardAndMaestro,
-                maxMastercardAndMaestroInMonth
-            )
-            printDelim(sumMAM, commissionMAM)
-            println("Visa и Mir")
-            val (sumVAM, commissionVAM) = visaAndMir(amount, commissionVisaAndMir, minCommissionVisaAndMir)
-            printDelim(sumVAM, commissionVAM)
-            val remainderDay = maxAmountPerDayCard - amount
-            val remainderMonth = maxAmountPerMonthCard - amount
-            println("По картам: ")
-            println("Остаток на текущий день $remainderDay рубль")
-            println("Остаток на текущий месяц $remainderMonth рубль")
-        }
+        return
     }
+    if (amount > maxAmountPerDayCard) {
+        println("Превышена сумма перевода за один раз :\nVkPay\n")
+        println("Превышена сумма перевода в сутки по картам :")
+        println("Mastercard,Maestro,Visa,Mir")
+        return
+    }
+    vkPay(amount, maxAmountAtOneTimeVKPay, maxAmountPerMonthVKPay)
+    println("Mastercard и Maestro")
+    val (sumMAM, commissionMAM) = mastercardAndMaestro(
+        amount, commissionMastercardAndMaestroPercent,
+        commissionMastercardAndMaestro,
+        maxMastercardAndMaestroInMonth
+    )
+    printDelim(sumMAM, commissionMAM)
+    println("Visa и Mir")
+    val (sumVAM, commissionVAM) = visaAndMir(amount, commissionVisaAndMir, minCommissionVisaAndMir)
+    printDelim(sumVAM, commissionVAM)
+    val remainderDay = maxAmountPerDayCard - amount
+    val remainderMonth = maxAmountPerMonthCard - amount
+    println("По картам: ")
+    println("Остаток на текущий день $remainderDay рубль")
+    println("Остаток на текущий месяц $remainderMonth рубль")
+
+
 }
 
 

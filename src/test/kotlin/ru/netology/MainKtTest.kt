@@ -42,4 +42,19 @@ class MainKtTest {
         assertEquals(36, sum)
         assertEquals(35, commission)
     }
+
+    @Test
+    fun vkPay() {
+
+    }
+
+    @Test
+    fun printDelim() {
+    }
+
+    @Test
+    fun printFinal() {
+    }
+
+
 }
