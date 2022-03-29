@@ -70,7 +70,6 @@ fun vkPay(amount: Int, maxAmountAtOneTimeVKPay: Int, maxAmountPerMonthVKPay: Int
     val remainderMonth = maxAmountPerMonthVKPay - amount
     println("Остаток на текущий день $remainderOnTime рубль")
     println("Остаток на текущий месяц $remainderMonth рубль\n")
-
 }
 
 fun printDelim(sum: Double, commission: Double) {
@@ -111,8 +110,6 @@ fun printFinal(
     println("По картам: ")
     println("Остаток на текущий день $remainderDay рубль")
     println("Остаток на текущий месяц $remainderMonth рубль")
-
-
 }
 
 
