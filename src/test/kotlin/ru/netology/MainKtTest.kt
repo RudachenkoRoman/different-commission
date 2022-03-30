@@ -69,7 +69,7 @@ class MainKtTest {
         val sum = result.first.toInt()
         val commission = result.second.toInt()
         assertEquals(36, sum)
-        assertEquals(36, commission) // ВЕРНОЕ ОЖИДАЕМОЕ ЗНАЧЕНИЕ 35
+        assertEquals(35, commission) // ВЕРНОЕ ОЖИДАЕМОЕ ЗНАЧЕНИЕ = 35
     }
 
     @Test
