@@ -36,35 +36,6 @@ class MainKtTest {
     }
 
     @Test
-    fun main_notCorrectNumber() {
-        val commissionMastercardAndMaestroPercent = 0.6
-        val commissionMastercardAndMaestro = 20
-        val minCommissionVisaAndMir = 35.0
-        val commissionVisaAndMir = 0.75
-
-        val maxMastercardAndMaestroInMonth = 75_000
-        val maxAmountPerDayCard = 150_000
-        val maxAmountPerMonthCard = 600_000
-        val maxAmountAtOneTimeVKPay = 15_000
-        val maxAmountPerMonthVKPay = 40_000
-        val amount = 0
-
-        val result = printFinal(
-            commissionMastercardAndMaestroPercent = commissionMastercardAndMaestroPercent,
-            commissionMastercardAndMaestro = commissionMastercardAndMaestro,
-            minCommissionVisaAndMir = minCommissionVisaAndMir,
-            commissionVisaAndMir = commissionVisaAndMir,
-            maxMastercardAndMaestroInMonth = maxMastercardAndMaestroInMonth,
-            maxAmountPerDayCard = maxAmountPerDayCard,
-            maxAmountPerMonthCard = maxAmountPerMonthCard,
-            maxAmountAtOneTimeVKPay = maxAmountAtOneTimeVKPay,
-            maxAmountPerMonthVKPay = maxAmountPerMonthVKPay,
-            amount = amount
-        )
-        assertEquals(Unit, result)
-    }
-
-    @Test
     fun mastercardAndMaestro() {
         val amount = 76_000
         val commissionMastercardAndMaestroPercent = 0.6
@@ -128,7 +99,7 @@ class MainKtTest {
     }
 
     @Test
-    fun printFinal() {
+    fun printFinalCorrectNumber() {
         val amount = 5000
         val maxAmountPerDayCard = 150_000
         val maxAmountPerMonthCard = 600_000
@@ -151,6 +122,35 @@ class MainKtTest {
             maxMastercardAndMaestroInMonth = maxMastercardAndMaestroInMonth,
             maxAmountAtOneTimeVKPay = maxAmountAtOneTimeVKPay,
             maxAmountPerMonthVKPay = maxAmountPerMonthVKPay
+        )
+        assertEquals(Unit, result)
+    }
+
+    @Test
+    fun printFinalNotCorrectNumber() {
+        val commissionMastercardAndMaestroPercent = 0.6
+        val commissionMastercardAndMaestro = 20
+        val minCommissionVisaAndMir = 35.0
+        val commissionVisaAndMir = 0.75
+
+        val maxMastercardAndMaestroInMonth = 75_000
+        val maxAmountPerDayCard = 150_000
+        val maxAmountPerMonthCard = 600_000
+        val maxAmountAtOneTimeVKPay = 15_000
+        val maxAmountPerMonthVKPay = 40_000
+        val amount = 0
+
+        val result = printFinal(
+            amount = amount,
+            commissionMastercardAndMaestroPercent = commissionMastercardAndMaestroPercent,
+            commissionMastercardAndMaestro = commissionMastercardAndMaestro,
+            minCommissionVisaAndMir = minCommissionVisaAndMir,
+            commissionVisaAndMir = commissionVisaAndMir,
+            maxMastercardAndMaestroInMonth = maxMastercardAndMaestroInMonth,
+            maxAmountPerDayCard = maxAmountPerDayCard,
+            maxAmountPerMonthCard = maxAmountPerMonthCard,
+            maxAmountAtOneTimeVKPay = maxAmountAtOneTimeVKPay,
+            maxAmountPerMonthVKPay = maxAmountPerMonthVKPay,
         )
         assertEquals(Unit, result)
     }
