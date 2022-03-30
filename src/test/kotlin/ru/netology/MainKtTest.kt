@@ -7,7 +7,7 @@ import org.junit.Assert.*
 class MainKtTest {
 
     @Test
-    fun main() {
+    fun main_correctNumber() {
         val commissionMastercardAndMaestroPercent = 0.6
         val commissionMastercardAndMaestro = 20
         val minCommissionVisaAndMir = 35.0
@@ -18,36 +18,50 @@ class MainKtTest {
         val maxAmountPerMonthCard = 600_000
         val maxAmountAtOneTimeVKPay = 15_000
         val maxAmountPerMonthVKPay = 40_000
-        var amount = 150_001
+        val amount = 150_001
 
-        var result = printFinal(
+        val result = printFinal(
             commissionMastercardAndMaestroPercent = commissionMastercardAndMaestroPercent,
             commissionMastercardAndMaestro = commissionMastercardAndMaestro,
             minCommissionVisaAndMir = minCommissionVisaAndMir,
             commissionVisaAndMir = commissionVisaAndMir,
             maxMastercardAndMaestroInMonth = maxMastercardAndMaestroInMonth,
-            maxAmountPerDayCard =  maxAmountPerDayCard,
+            maxAmountPerDayCard = maxAmountPerDayCard,
             maxAmountPerMonthCard = maxAmountPerMonthCard,
             maxAmountAtOneTimeVKPay = maxAmountAtOneTimeVKPay,
             maxAmountPerMonthVKPay = maxAmountPerMonthVKPay,
             amount = amount
         )
-        assertEquals(Unit,result)
+        assertEquals(Unit, result)
+    }
 
-        amount = 0
-        result = printFinal(
+    @Test
+    fun main_notCorrectNumber() {
+        val commissionMastercardAndMaestroPercent = 0.6
+        val commissionMastercardAndMaestro = 20
+        val minCommissionVisaAndMir = 35.0
+        val commissionVisaAndMir = 0.75
+
+        val maxMastercardAndMaestroInMonth = 75_000
+        val maxAmountPerDayCard = 150_000
+        val maxAmountPerMonthCard = 600_000
+        val maxAmountAtOneTimeVKPay = 15_000
+        val maxAmountPerMonthVKPay = 40_000
+        val amount = 0
+
+        val result = printFinal(
             commissionMastercardAndMaestroPercent = commissionMastercardAndMaestroPercent,
             commissionMastercardAndMaestro = commissionMastercardAndMaestro,
             minCommissionVisaAndMir = minCommissionVisaAndMir,
             commissionVisaAndMir = commissionVisaAndMir,
             maxMastercardAndMaestroInMonth = maxMastercardAndMaestroInMonth,
-            maxAmountPerDayCard =  maxAmountPerDayCard,
+            maxAmountPerDayCard = maxAmountPerDayCard,
             maxAmountPerMonthCard = maxAmountPerMonthCard,
             maxAmountAtOneTimeVKPay = maxAmountAtOneTimeVKPay,
             maxAmountPerMonthVKPay = maxAmountPerMonthVKPay,
             amount = amount
         )
-        assertEquals(Unit,result)
+        assertEquals(Unit, result)
     }
 
     @Test
